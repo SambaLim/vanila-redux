@@ -1,3 +1,4 @@
+import { plugins } from "pretty-format";
 import { createStore } from "redux";
 
 const plus = document.querySelector('#add');
@@ -11,11 +12,19 @@ const countModifier = (count = 0, action) => {
 };
 const countStore = createStore(countModifier);
 
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "ADD" });
-countStore.dispatch({ type: "MINUS" });
+const onChange = () => {
+  number.innerText = countStore.getState();
+}
 
-console.log(countStore.getState());
+countStore.subscribe(onChange);
+
+const handleAdd = () => {
+  countStore.dispatch({ type: "ADD" })
+}
+
+const handleMinus = () => {
+  countStore.dispatch({ type: "MINUS" })
+}
+
+plus.addEventListener('click', handleAdd);
+minus.addEventListener('click', handleMinus);
